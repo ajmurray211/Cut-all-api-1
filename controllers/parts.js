@@ -2,10 +2,6 @@ const express = require('express')
 const router = express.Router()
 const  Part = require('../models/part')
 
-// router.get('/', (req,res) => {
-//     res.send('this is the parts api data')
-// })
-
 //Show all parts
 router.get('/', (req, res) => {
     Part.find()
