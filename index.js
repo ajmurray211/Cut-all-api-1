@@ -1,4 +1,5 @@
 const express = require('express')
+// const cors = require('cors')
 const dotenv = require('dotenv')
 const mongoose = require('mongoose')
 const workerController = require('./controllers/workers')
@@ -8,6 +9,7 @@ const app = express()
 dotenv.config()
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
+// app.use(cors())
 mongoose.set('strictQuery', true)
 
 mongoose.connect(process.env.LOCALHOST)
