@@ -38,6 +38,66 @@ const list = [
         count: 1,
         tool: 'Concrete saw'
     },
+    {
+        name:'18" asphalt blade',
+        count: 1,
+        tool: 'Asphalt saw'
+    },
+    {
+        name:'24" asphalt blade',
+        count: 1,
+        tool: 'Asphalt saw'
+    },
+    {
+        name:'30" asphalt blade',
+        count: 1,
+        tool: 'Asphalt saw'
+    },
+    {
+        name:'36" asphalt blade',
+        count: 1,
+        tool: 'Asphalt saw'
+    },
+    {
+        name:'42" asphalt blade',
+        count: 1,
+        tool: 'Asphalt saw'
+    },
+    {
+        name:'16" hand blade',
+        count: 1,
+        tool: 'Hand saw'
+    },
+    {
+        name:'20" hand blade',
+        count: 1,
+        tool: 'Hand saw'
+    },
+    {
+        name:'20" wall blade',
+        count: 1,
+        tool: 'Wall saw'
+    },
+    {
+        name:'24" wall blade',
+        count: 1,
+        tool: 'Wall saw'
+    },
+    {
+        name:'30" wall blade',
+        count: 1,
+        tool: 'Wall saw'
+    },
+    {
+        name:'36" wall blade',
+        count: 1,
+        tool: 'Wall saw'
+    },
+    {
+        name:'42" wall blade',
+        count: 1,
+        tool: 'Wall saw'
+    },
 ]
 
 const seedDB = async () => {
