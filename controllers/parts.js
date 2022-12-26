@@ -4,7 +4,7 @@ const Part = require('../models/part')
 
 //Show all parts
 router.get('/', (req, res) => {
-    Part.find()
+    Part.find({}).populate('drawList')
         .then(data => res.status(200).json({ data: data }))
 })
 
@@ -16,8 +16,8 @@ router.post('/', (req, res) => {
 })
 
 //Update one part by ID
-router.put('/:id', (req, res) => {
-    Part.findByIdAndUpdate(req.params.id, req.body, { new: true })
+router.put('/:partID', (req, res) => {
+    Part.findByIdAndUpdate(req.params.partID, req.body, { new: true })
         .then((updatedPost) => res.status(201).json({ updatedPost: updatedPost }))
 })
 
@@ -27,6 +27,7 @@ router.delete('/:id', (req, res) => {
         .then((updatedPost) => res.status(204).json({ updatedPost: updatedPost }))
 })
 
+// Sorting parts
 router.get('/search', (req, res) => {
     const { name, tool } = req.query
     console.log(req.query)
