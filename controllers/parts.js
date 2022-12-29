@@ -29,14 +29,22 @@ router.delete('/:id', (req, res) => {
 
 // Sorting parts
 router.get('/search', (req, res) => {
-    const { name, tool } = req.query
-    console.log(req.query)
+    const { name, tool, sort } = req.query
+    // console.log(req.query)
     if (name) {
         Part.find({ name: { $regex: `${name}` } })
             .then(data => res.status(200).json({ data: data }))
     } else if (tool) {
         Part.find({ tool: { $regex: `${tool}` } })
             .then(data => res.status(200).json({ data: data }))
+    } else if (sort) {
+        if (sort == 'dec') {
+            Part.aggregate([{ $sort: { onHand: -1 } }])
+                .then(data => res.status(200).json({ data: data }))
+        } else if (sort == 'acd'){
+            Part.aggregate([{ $sort: { onHand: 1 } }])
+            .then(data => res.status(200).json({ data: data }))
+        }
     }
 })
 
