@@ -28,6 +28,8 @@ app.get('/', (req, res) => {
 app.use('/workers', workerController)
 app.use('/parts', partController)
 
-app.listen(process.env.PORT, () => {
-    console.log(`Listening on port: ${process.env.PORT}`)
-})
+app.set("port", process.env.PORT || 8080);
+
+app.listen(app.get("port"), () => {
+  console.log(`✅ PORT: ${app.get("port")} 🌟`);
+});
