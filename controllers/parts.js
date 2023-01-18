@@ -32,17 +32,17 @@ router.get('/search', (req, res) => {
     const { name, tool, sort } = req.query
     // console.log(req.query)
     if (name) {
-        Part.find({ name: { $regex: `${name}` } })
-            .then(data => res.status(200).json({ data: data }))
+        Part.find({ name: { $regex: `${name}` } }).populate('drawList')
+            .then(data => {res.status(200).json({ data: data })})
     } else if (tool) {
-        Part.find({ tool: { $regex: `${tool}` } })
+        Part.find({ tool: { $regex: `${tool}` } }).populate('drawList')
             .then(data => res.status(200).json({ data: data }))
     } else if (sort) {
         if (sort == 'dec') {
-            Part.aggregate([{ $sort: { onHand: -1 } }])
+            Part.aggregate([{ $sort: { onHand: -1 } }]).populate('drawList')
                 .then(data => res.status(200).json({ data: data }))
         } else if (sort == 'acd'){
-            Part.aggregate([{ $sort: { onHand: 1 } }])
+            Part.aggregate([{ $sort: { onHand: 1 } }]).populate('drawList')
             .then(data => res.status(200).json({ data: data }))
         }
     }
