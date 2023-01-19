@@ -111,7 +111,7 @@ const seedDB = async () => {
         await part.save()
     }
 }
-
-seedDB().then(() => {
-    mongoose.connection.close()
-})
+seedDB()
+// seedDB().then(() => {
+//     mongoose.connection.close()
+// })
