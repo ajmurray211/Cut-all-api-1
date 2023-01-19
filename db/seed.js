@@ -101,7 +101,7 @@ const list = [
 ]
 
 const seedDB = async () => {
-    await Part.deleteMany({})
+    // await Part.deleteMany({})
     for (let i in list) {
         const part = new Part({
             name: list[i].name,
