@@ -3,7 +3,7 @@ const dotenv = require('dotenv')
 dotenv.config()
 const Part = require('../models/part')
 
-mongoose.connect(process.env.LOCALHOST)
+// mongoose.connect(process.env.LOCALHOST)
 
 const db = mongoose.connection
 mongoose.set('strictQuery', true)

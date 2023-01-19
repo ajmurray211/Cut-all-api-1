@@ -7,7 +7,7 @@ if (process.env.NODE_ENV === "production") {
     mongoURI = process.env.LOCALHOST;
   }
 
-// mongoose.connect(mongoURI)
+mongoose.connect(mongoURI)
 // const db = mongoose.connection
 // db.on('error', console.error.bind(console, 'Connection error'))
 // db.once('open', () => {
