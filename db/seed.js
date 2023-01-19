@@ -5,12 +5,12 @@ const Part = require('../models/part')
 
 // mongoose.connect(process.env.LOCALHOST)
 
-const db = mongoose.connection
-mongoose.set('strictQuery', true)
-db.on('error', console.error.bind(console, 'Connection error'))
-db.once('open', () => {
-    console.log('Database seeded with stock information')
-})
+// const db = mongoose.connection
+// mongoose.set('strictQuery', true)
+// db.on('error', console.error.bind(console, 'Connection error'))
+// db.once('open', () => {
+//     console.log('Database seeded with stock information')
+// })
 
 const list = [
     {

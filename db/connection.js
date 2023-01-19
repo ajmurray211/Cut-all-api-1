@@ -4,7 +4,7 @@ let mongoURI = ""
 if (process.env.NODE_ENV === "production") {
     mongoURI = process.env.DB_URL;
   } else {
-    mongoURI = process.env.LOCALHOST;
+    mongoURI = 'mongodb://localhost:27017/cut-all-api-1';
   }
 
 mongoose.connect(mongoURI)
