@@ -1,0 +1,62 @@
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
+
+const ticketSchema = new Schema({
+    CC: String,
+    address: String,
+    billTo: String,
+    confirmationName: String,
+    coreDrilling: String,
+    date: String,
+    detailsNotCovered: String,
+    downTime: String,
+    dumpYards: String,
+    email: String,
+    hammerChipping: String,
+    handLabor: String,
+    haul: String,
+    helperTimes: {
+        name: {
+            milage: String,
+            jobBegin: String,
+            jobEnd: String,
+            travelBegin: String,
+            travelEnd: String,
+        }
+    },
+    jobBegin: String,
+    jobEnd: String,
+    jobInfo: String,
+    jobNum: String,
+    jobTotal: {
+        combined: String,
+        hours: Number,
+        mins: Number,
+        minutes: Number
+    },
+    loadExcevate: String,
+    milage: String,
+    other: String,
+    otherWorkers: [String],
+    poNum: String,
+    powerBreak: String,
+    release: String,
+    slabSaw: String,
+    standby: String,
+    timeChart: String,
+    totalPaidTime: String,
+    travelBegin: String,
+    traveEnd: String,
+    travelTotal: {
+        combined: String,
+        hours: Number,
+        mins: Number,
+        minutes: Number
+    },
+    truckNum: String,
+    wallSawing: String,
+    waterCon: String,
+    worker: String,
+})
+
+module.exports = mongoose.model('Ticket', ticketSchema)

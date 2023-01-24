@@ -4,6 +4,7 @@ const dotenv = require('dotenv')
 const mongoose = require('mongoose')
 const workerController = require('./controllers/workers')
 const partController = require('./controllers/parts')
+const ticketController = require('./controllers/tickets')
 
 const app = express()
 dotenv.config()
@@ -36,6 +37,7 @@ app.get('/', (req, res) => {
 // routes
 app.use('/workers', workerController)
 app.use('/parts', partController)
+app.use('/ticket', ticketController)
 
 app.set("port", process.env.PORT || 8080);
 
