@@ -18,7 +18,13 @@ router.post('/', (req, res) => {
 //Update one ticket by ID
 router.put('/:ticketID', (req, res) => {
     Ticket.findByIdAndUpdate(req.params.ticketID, req.body, { new: true })
-        .then((updatedPost) => res.status(201).json({ updatedPost: updatedPost }))
+        .then((ticket) => res.status(201).json({ ticket: ticket }))
+})
+
+//Delete a ticket by ID
+router.delete('/:id', (req, res) => {
+    Ticket.findByIdAndDelete(req.params.id)
+        .then((ticket) => res.status(204).json({ ticket: ticket }))
 })
 
 module.exports = router
