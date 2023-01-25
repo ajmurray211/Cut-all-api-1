@@ -15,15 +15,7 @@ const ticketSchema = new Schema({
     hammerChipping: String,
     handLabor: String,
     haul: String,
-    helperTimes: {
-        name: {
-            milage: String,
-            jobBegin: String,
-            jobEnd: String,
-            travelBegin: String,
-            travelEnd: String,
-        }
-    },
+    helperTimes: Schema.Types.Mixed,
     jobBegin: String,
     jobEnd: String,
     jobInfo: String,
