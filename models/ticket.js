@@ -18,7 +18,8 @@ const ticketSchema = new Schema({
     helperTimes: Schema.Types.Mixed,
     jobBegin: String,
     jobEnd: String,
-    jobInfo: String,
+    jobInfoHTML: String,
+    jobInfo: Schema.Types.Mixed,
     jobNum: String,
     jobTotal: {
         combined: String,
@@ -49,6 +50,7 @@ const ticketSchema = new Schema({
     wallSawing: String,
     waterCon: String,
     worker: String,
+
 })
 
 module.exports = mongoose.model('Ticket', ticketSchema)
