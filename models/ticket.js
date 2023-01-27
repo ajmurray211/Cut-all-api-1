@@ -39,7 +39,7 @@ const ticketSchema = new Schema({
     timeChart: String,
     totalPaidTime: String,
     travelBegin: String,
-    traveEnd: String,
+    travelEnd: String,
     travelTotal: {
         combined: String,
         hours: Number,
