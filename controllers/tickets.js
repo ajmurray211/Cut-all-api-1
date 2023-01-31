@@ -4,7 +4,7 @@ const Ticket = require('../models/ticket')
 
 //Show all tickets
 router.get('/', (req, res) => {
-    Ticket.find({})
+    Ticket.find({}).sort({_id:-1}) 
         .then(data => res.status(200).json({ data: data }))
 })
 

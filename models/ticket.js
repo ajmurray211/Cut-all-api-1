@@ -48,7 +48,7 @@ const ticketSchema = new Schema({
     },
     truckNum: String,
     wallSawing: String,
-    waterCon: String,
+    waterControl: String,
     worker: String,
 
 })
