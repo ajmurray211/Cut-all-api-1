@@ -8,11 +8,6 @@ router.get('/', (req, res) => {
         .then(data => res.status(200).json({ data: data }))
 })
 
-router.get('/topTicketNum', (req, res) => {
-    Ticket.find({}).sort({ ticketNum: -1 }).limit(1).select('ticketNum')
-        .then(data => res.status(200).json(data))
-})
-
 // Make a new ticket
 router.post('/', async (req, res) => {
     const highestIdDoc = await Ticket.find({}).sort({ ticketNum: -1 }).limit(1);
@@ -21,6 +16,12 @@ router.post('/', async (req, res) => {
     Ticket.create(data)
         .then(ticket => res.status(201).json({ ticket: ticket }))
 })
+
+router.get('/topTicketNum', (req, res) => {
+    Ticket.find({}).sort({ ticketNum: -1 }).limit(1)
+        .then(data => res.status(200).json(data))
+})
+
 
 router.get('/:id', (req, res) => {
     Ticket.findById(req.params.id).sort({ _id: -1 })
