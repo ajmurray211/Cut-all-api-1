@@ -12,7 +12,8 @@ router.get('/', (req, res) => {
 router.post('/', async (req, res) => {
     const highestIdDoc = await Ticket.find({}).sort({ ticketNum: -1 }).limit(1);
     let customId = highestIdDoc.length > 0 ? highestIdDoc[0].ticketNum + 1 : 1;
-    const data = { ...req.body, ticketNum: customId }
+    // const data = { ...req.body, ticketNum: customId }
+    const data = req.body
     Ticket.create(data)
         .then(ticket => res.status(201).json({ ticket: ticket }))
 })
