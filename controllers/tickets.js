@@ -4,15 +4,27 @@ const Ticket = require('../models/ticket')
 
 //Show all tickets
 router.get('/', (req, res) => {
-    Ticket.find({}).sort({_id:-1}) 
+    Ticket.find({}).sort({ _id: -1 })
         .then(data => res.status(200).json({ data: data }))
 })
 
+router.get('/topTicketNum', (req, res) => {
+    Ticket.find({}).sort({ ticketNum: -1 }).limit(1).select('ticketNum')
+        .then(data => res.status(200).json(data))
+})
+
 // Make a new ticket
-router.post('/', (req, res) => {
-    const data = req.body
+router.post('/', async (req, res) => {
+    const highestIdDoc = await Ticket.find({}).sort({ ticketNum: -1 }).limit(1);
+    let customId = highestIdDoc.length > 0 ? highestIdDoc[0].ticketNum + 1 : 1;
+    const data = { ...req.body, ticketNum: customId }
     Ticket.create(data)
         .then(ticket => res.status(201).json({ ticket: ticket }))
+})
+
+router.get('/:id', (req, res) => {
+    Ticket.findById(req.params.id).sort({ _id: -1 })
+        .then(data => res.status(200).json({ data: data }))
 })
 
 //Update one ticket by ID

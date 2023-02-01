@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const ticketSchema = new Schema({
+    ticketNum: Number,
     CC: String,
     address: String,
     billTo: String,
