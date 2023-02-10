@@ -51,7 +51,8 @@ const ticketSchema = new Schema({
     wallSawing: String,
     waterControl: String,
     worker: String,
-
+    jobPerQuote: Boolean,
+    workAdded: Boolean
 })
 
 module.exports = mongoose.model('Ticket', ticketSchema)

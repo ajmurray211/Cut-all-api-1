@@ -33,7 +33,7 @@ router.get('/search', (req, res) => {
     // console.log(req.query)
     if (name) {
         Part.find({ name: { $regex: `${name}` } }).populate('drawList')
-            .then(data => {res.status(200).json({ data: data })})
+            .then(data => { res.status(200).json({ data: data }) })
     } else if (tool) {
         Part.find({ tool: { $regex: `${tool}` } }).populate('drawList')
             .then(data => res.status(200).json({ data: data }))
@@ -41,9 +41,9 @@ router.get('/search', (req, res) => {
         if (sort == 'dec') {
             Part.aggregate([{ $sort: { onHand: -1 } }]).populate('drawList')
                 .then(data => res.status(200).json({ data: data }))
-        } else if (sort == 'acd'){
+        } else if (sort == 'acd') {
             Part.aggregate([{ $sort: { onHand: 1 } }]).populate('drawList')
-            .then(data => res.status(200).json({ data: data }))
+                .then(data => res.status(200).json({ data: data }))
         }
     }
 })

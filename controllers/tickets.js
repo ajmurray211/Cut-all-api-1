@@ -8,6 +8,27 @@ router.get('/', (req, res) => {
         .then(data => res.status(200).json({ data: data }))
 })
 
+router.get('/search', (req, res) => {
+    const { worker, ticketNum, sort } = req.query
+    let searchQuery = {}
+    if (worker) {
+        searchQuery.worker = { $regex: `${worker}` }
+    } else if (ticketNum) {
+        searchQuery.ticketNum = { $regex: `${ticketNum}` }
+    }
+
+    let sortQuery = {}
+    if (sort === 'dec') {
+        sortQuery.ticketNum = -1
+    } else if (sort === 'acd') {
+        sortQuery.ticketNum = 1
+    }
+
+    Ticket.find(searchQuery)
+        .sort(sortQuery)
+        .then(data => res.status(200).json({ data: data }));
+})
+
 // Make a new ticket
 router.post('/', async (req, res) => {
     const highestIdDoc = await Ticket.find({}).sort({ ticketNum: -1 }).limit(1);
@@ -22,7 +43,6 @@ router.post('/', async (req, res) => {
 //     Ticket.find({}).sort({ ticketNum: -1 }).limit(1)
 //         .then(data => res.status(200).json(data))
 // })
-
 
 router.get('/:id', (req, res) => {
     Ticket.findById(req.params.id).sort({ _id: -1 })
