@@ -5,6 +5,7 @@ const mongoose = require('mongoose')
 const workerController = require('./controllers/workers')
 const partController = require('./controllers/parts')
 const ticketController = require('./controllers/tickets')
+const serialNumController = require('./controllers/serialNums')
 
 const app = express()
 dotenv.config()
@@ -38,6 +39,7 @@ app.get('/', (req, res) => {
 app.use('/workers', workerController)
 app.use('/parts', partController)
 app.use('/ticket', ticketController)
+app.use('/serialNum', serialNumController )
 
 app.set("port", process.env.PORT || 8080);
 
