@@ -4,7 +4,7 @@ const router = express.Router()
 
 //Show all SerialNums
 router.get('/', (req, res) => {
-    SerialNum.find({})
+    SerialNum.find({}).sort({tool: 1})
         .then(data => res.status(200).json({ data: data }))
 })
 
@@ -17,7 +17,7 @@ router.post('/', (req, res) => {
 
 //Update one serialNum by ID
 router.put('/:serialNumID', (req, res) => {
-    SerialNum.findByIdAndUpdate(req.params.serialNumID, req.body, { new: true })
+    SerialNum.findOneAndUpdate({serialNum : req.params.serialNumID},{ $push:req.body}, { new: true })
         .then((updatedPost) => res.status(201).json({ updatedPost: updatedPost }))
 })
 

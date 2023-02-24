@@ -4,7 +4,7 @@ const Part = require('../models/part')
 
 //Show all parts
 router.get('/', (req, res) => {
-    Part.find({}).populate('drawList')
+    Part.find({}).sort({ onHand: 1 }).populate({ path: 'drawList', options: { limit: 5, sort: { date: 1 } } })
         .then(data => res.status(200).json({ data: data }))
 })
 
@@ -30,22 +30,30 @@ router.delete('/:id', (req, res) => {
 // Sorting parts
 router.get('/search', (req, res) => {
     const { name, tool, sort } = req.query
-    // console.log(req.query)
+    let searchQuery = {}
     if (name) {
-        Part.find({ name: { $regex: `${name}` } }).populate('drawList')
-            .then(data => { res.status(200).json({ data: data }) })
+        searchQuery.name = { $regex: `${name}` }
     } else if (tool) {
-        Part.find({ tool: { $regex: `${tool}` } }).populate('drawList')
-            .then(data => res.status(200).json({ data: data }))
-    } else if (sort) {
-        if (sort == 'dec') {
-            Part.aggregate([{ $sort: { onHand: -1 } }]).populate('drawList')
-                .then(data => res.status(200).json({ data: data }))
-        } else if (sort == 'acd') {
-            Part.aggregate([{ $sort: { onHand: 1 } }]).populate('drawList')
-                .then(data => res.status(200).json({ data: data }))
-        }
+        searchQuery.tool = { $regex: `${tool}` }
     }
+
+    let sortQuery = {}
+    if (sort === 'dec') {
+        sortQuery.onHand = -1
+    } else {
+        sortQuery.onHand = 1
+    }
+
+    Part.find(searchQuery)
+        .sort(sortQuery)
+        .populate({ path: 'drawList', options: { limit: 5, sort: { date: 1 } } })
+        .then(data => res.status(200).json({ data: data }));
+})
+
+// get a part by id
+router.get('/:id', (req, res) => {
+    Part.findById(req.params.id).populate('drawList')
+        .then(data => res.status(200).json({ data: data }))
 })
 
 module.exports = router
