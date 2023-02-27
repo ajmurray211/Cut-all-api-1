@@ -15,9 +15,22 @@ router.post('/', (req, res) => {
         .then(serialNum => res.status(201).json({ serialNum: serialNum }))
 })
 
+// get only serial numbers
+router.get('/numsList', (req,res) => {
+    SerialNum.find({}, 'serialNum')
+    .then(data => res.status(200).json({ data: data }))
+})
+
 //Update one serialNum by ID
 router.put('/:serialNumID', (req, res) => {
-    SerialNum.findOneAndUpdate({serialNum : req.params.serialNumID},{ $push:req.body}, { new: true })
+    let update = {
+        assignedTo: req.body.assignedTo,
+        $push : {
+            history: req.body.history
+        }
+    }
+    console.log(req.body.assignedTo)
+    SerialNum.findOneAndUpdate({ serialNum: req.params.serialNumID }, update, { new: true })
         .then((updatedPost) => res.status(201).json({ updatedPost: updatedPost }))
 })
 

@@ -6,6 +6,7 @@ const serialNumSchema = new Schema({
     name: String,
     specNum: String,
     serialNum: String,
+    assignedTo : String,
     history: [
         {
             runLength: String,

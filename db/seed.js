@@ -129,6 +129,7 @@ const serialList = [
     {
         manufacture: "Dixi diamond",
         serialNum: "DD1",
+        assignedTo: '',
         specNum: "23564890",
         name: "18\" concrete blade",
         history: [
@@ -152,6 +153,7 @@ const serialList = [
     {
         manufacture: "Con cut",
         serialNum: "CC1",
+        assignedTo: '',
         specNum: "12874056A",
         name: "18\" asphalt blade",
         history: [
@@ -175,6 +177,7 @@ const serialList = [
     {
         manufacture: "Dixi diamond",
         serialNum: "DD2",
+        assignedTo: '',
         specNum: "4FD34127",
         name: "18\" concrete blade",
         history: [
@@ -198,6 +201,7 @@ const serialList = [
     {
         manufacture: "Hilti",
         serialNum: "H1",
+        assignedTo: '',
         specNum: "43123468479B2",
         name: "18\" wall blade",
         history: [
@@ -236,7 +240,9 @@ const seedDB = async () => {
         const num = new Serial({
             manufacture: serialList[i].manufacture,
             serialNum: serialList[i].serialNum,
-            specNum: serialList[i].specNum,
+            assignedTo: '',
+            assignedTo: '',specNum: serialList[i].
+            specNum,
             name: serialList[i].name,
             history:serialList[i].history
         })
