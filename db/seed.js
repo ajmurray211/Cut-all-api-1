@@ -242,6 +242,7 @@ const seedDB = async () => {
         const part = new Part({
             name: partList[i].name,
             onHand: partList[i].count,
+            emailed: partList[i].emailed,
             tool: partList[i].tool
         })
         await part.save()
