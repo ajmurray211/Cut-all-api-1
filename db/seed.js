@@ -123,6 +123,18 @@ const partList = [
         emailed: false,
         tool: 'Wall saw'
     },
+    {
+        name: '12" Bit',
+        count: 6,
+        emailed: false,
+        tool: 'Core drill'
+    },
+    {
+        name: 'Slab saw belts',
+        count: 6,
+        emailed: false,
+        tool: 'Consumables'
+    },
 ]
 
 const serialList = [
