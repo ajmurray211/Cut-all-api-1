@@ -54,7 +54,16 @@ const partSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'Worker'
         }
-    ]
+    ],
+    // image: {
+    //     filename: String,
+    //     contentType: String,
+    //     data: Buffer,  
+    //     createdAt: {
+    //         type: Date,
+    //         default: Date.now
+    //     }
+    // }
 });
 
 function getStartOfWeek() {
