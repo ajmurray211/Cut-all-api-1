@@ -3,9 +3,10 @@ const cors = require('cors')
 const dotenv = require('dotenv')
 const mongoose = require('mongoose')
 const workerController = require('./controllers/workers')
-const partController = require('./controllers/parts')
+const partRoutes = require('./routes/parts.js')
 const ticketController = require('./controllers/tickets')
 const serialNumController = require('./controllers/serialNums')
+const timeCardController =  require('./controllers/timeCards')
 
 const app = express()
 dotenv.config()
@@ -37,9 +38,10 @@ app.get('/', (req, res) => {
 
 // routes
 app.use('/workers', workerController)
-app.use('/parts', partController)
+app.use('/parts', partRoutes)
 app.use('/ticket', ticketController)
 app.use('/serialNum', serialNumController )
+app.use('/timeCards', timeCardController)
 
 app.set("port", process.env.PORT || 8080);
 
