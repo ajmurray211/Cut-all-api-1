@@ -36,6 +36,7 @@ const ticketSchema = new Schema({
     powerBreak: String,
     release: String,
     slabSaw: String,
+    handSawing: String,
     standby: String,
     timeChart: String,
     totalPaidTime: String,

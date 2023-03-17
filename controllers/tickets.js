@@ -52,7 +52,7 @@ router.get('/:id', (req, res) => {
 //Update one ticket by ID
 router.put('/:ticketID', (req, res) => {
     Ticket.findByIdAndUpdate(req.params.ticketID, req.body, { new: true })
-        .then((ticket) => res.status(201).json({ ticket: ticket }))
+        .then((ticket) => res.status(201).json({ ticket: ticket, message: 'Edited the ticket successfully!' }))
 })
 
 //Delete a ticket by ID
