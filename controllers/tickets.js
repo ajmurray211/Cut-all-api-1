@@ -1,14 +1,13 @@
-const express = require('express')
-const router = express.Router()
 const Ticket = require('../models/ticket')
+const mongoose = require('mongoose')
 
 //Show all tickets
-router.get('/', (req, res) => {
+const getTickets = async (req, res) => {
     Ticket.find({}).sort({ _id: -1 })
         .then(data => res.status(200).json({ data: data }))
-})
+}
 
-router.get('/search', (req, res) => {
+const searchTickets = async (req, res) => {
     const { worker, ticketNum, sort } = req.query
     let searchQuery = {}
     if (worker) {
@@ -27,38 +26,61 @@ router.get('/search', (req, res) => {
     Ticket.find(searchQuery)
         .sort(sortQuery)
         .then(data => res.status(200).json({ data: data }));
-})
+}
 
 // Make a new ticket
-router.post('/', async (req, res) => {
-    const highestIdDoc = await Ticket.find({}).sort({ ticketNum: -1 }).limit(1);
-    let customId = highestIdDoc.length > 0 ? highestIdDoc[0].ticketNum + 1 : 1;
-    // const data = { ...req.body, ticketNum: customId }
+const createTicket = async (req, res) => {
     const data = req.body
     Ticket.create(data)
         .then(ticket => res.status(201).json({ ticket: ticket }))
-})
+}
 
-router.get('/topTicketNum', (req, res) => {
+const topTicketNum = async (req, res) => {
     Ticket.find({}).sort({ ticketNum: -1 }).limit(1)
         .then(data => res.status(200).json(data))
-})
+}
 
-router.get('/:id', (req, res) => {
-    Ticket.findById(req.params.id).sort({ _id: -1 })
+const getSingleTicket = async (req, res) => {
+    const { id } = req.params
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ error: 'No such Ticket exsists.' })
+    }
+
+    Ticket.findById(id).sort({ _id: -1 })
         .then(data => res.status(200).json({ data: data }))
-})
+}
 
 //Update one ticket by ID
-router.put('/:ticketID', (req, res) => {
-    Ticket.findByIdAndUpdate(req.params.ticketID, req.body, { new: true })
+const updateSingleTicket = async (req, res) => {
+    const { id } = req.params
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ error: 'No such Ticket exsists.' })
+    }
+
+    Ticket.findByIdAndUpdate(id, req.body, { new: true })
         .then((ticket) => res.status(201).json({ ticket: ticket, message: 'Edited the ticket successfully!' }))
-})
+}
 
 //Delete a ticket by ID
-router.delete('/:id', (req, res) => {
-    Ticket.findByIdAndDelete(req.params.id)
-        .then((ticket) => res.status(204).json({ ticket: ticket }))
-})
+const deleteTicket = async (req, res) => {
+    const { id } = req.params
 
-module.exports = router
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ error: 'No such Ticket exsists.' })
+    }
+
+    Ticket.findByIdAndDelete(id)
+        .then((ticket) => res.status(204).json({ ticket: ticket }))
+}
+
+module.exports = {
+    getTickets,
+    searchTickets,
+    createTicket,
+    topTicketNum,
+    getSingleTicket,
+    updateSingleTicket,
+    deleteTicket
+}
