@@ -101,4 +101,11 @@ const deletePart = async (req, res) => {
     res.status(204).json(part)
 }
 
-module.exports = { getParts, getSinglePart, deletePart, sortParts, createNewPart, updatePart }
+module.exports = {
+    getParts,
+    getSinglePart,
+    deletePart,
+    sortParts,
+    createNewPart,
+    updatePart
+}

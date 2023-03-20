@@ -4,7 +4,7 @@ const dotenv = require('dotenv')
 const mongoose = require('mongoose')
 const workerController = require('./controllers/workers')
 const partRoutes = require('./routes/parts.js')
-const ticketController = require('./controllers/tickets')
+const ticketRoutes = require('./routes/tickets')
 const serialNumController = require('./controllers/serialNums')
 const timeCardController =  require('./controllers/timeCards')
 
@@ -39,7 +39,7 @@ app.get('/', (req, res) => {
 // routes
 app.use('/workers', workerController)
 app.use('/parts', partRoutes)
-app.use('/ticket', ticketController)
+app.use('/ticket', ticketRoutes)
 app.use('/serialNum', serialNumController )
 app.use('/timeCards', timeCardController)
 
