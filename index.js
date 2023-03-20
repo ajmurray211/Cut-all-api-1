@@ -5,8 +5,8 @@ const mongoose = require('mongoose')
 const workerController = require('./controllers/workers')
 const partRoutes = require('./routes/parts.js')
 const ticketRoutes = require('./routes/tickets')
-const serialNumController = require('./controllers/serialNums')
-const timeCardController =  require('./controllers/timeCards')
+const serialNumRoutes = require('./routes/serialNums.js')
+const timeCardController = require('./controllers/timeCards')
 
 const app = express()
 dotenv.config()
@@ -19,28 +19,28 @@ mongoose.set('strictQuery', true)
 let mongoURI = ""
 
 if (process.env.NODE_ENV === "production") {
-    mongoURI = process.env.DB_URL;
-  } else {
-    mongoURI = 'mongodb://localhost:27017/cut-all-api-1';
-  }
+  mongoURI = process.env.DB_URL;
+} else {
+  mongoURI = 'mongodb://localhost:27017/cut-all-api-1';
+}
 
 mongoose.connect(mongoURI)
 
 const db = mongoose.connection
 db.on('error', console.error.bind(console, 'Connection error'))
 db.once('open', () => {
-    console.log('Database connected')
+  console.log('Database connected')
 })
 
 app.get('/', (req, res) => {
-    res.send('test test new api')
+  res.send('test test new api')
 })
 
 // routes
 app.use('/workers', workerController)
 app.use('/parts', partRoutes)
 app.use('/ticket', ticketRoutes)
-app.use('/serialNum', serialNumController )
+app.use('/serialNum', serialNumRoutes)
 app.use('/timeCards', timeCardController)
 
 app.set("port", process.env.PORT || 8080);

@@ -1,28 +1,26 @@
 const express = require('express')
-const { populate, findById, findByIdAndUpdate } = require('../models/serialNum')
 const SerialNum = require('../models/serialNum')
-const router = express.Router()
 
 //Show all SerialNums
-router.get('/', (req, res) => {
+const getAllSerialNums = (req, res) => {
     SerialNum.find({}).sort({ tool: 1 })
         .then(data => res.status(200).json({ data: data }))
-})
+}
 
 // Make a new SerialNum
-router.post('/', (req, res) => {
+const createSerialNum = async (req, res) => {
     const data = req.body
     SerialNum.create(data)
         .then(serialNum => res.status(201).json({ serialNum: serialNum }))
-})
+}
 
 // get only serial numbers
-router.get('/numsList', (req, res) => {
+const getJustSerialNumbers = (req, res) => {
     SerialNum.find({}, 'serialNum')
         .then(data => res.status(200).json({ data: data }))
-})
+}
 
-router.put('/editJobInfo', (req, res) => {
+const editSerialNumberJobData = (req, res) => {
     console.log('hit update', req.body)
     SerialNum.findOne({
         serialNum: req.body.serialNum,
@@ -55,15 +53,15 @@ router.put('/editJobInfo', (req, res) => {
             console.error(error);
             res.status(500).json({ error: error });
         })
-})
+}
 
-router.get('/:name', (req, res) => {
+const getSingleNum = (req, res) => {
     SerialNum.find({ serialNum: req.params.name })
         .then(data => res.status(200).json({ data: data }))
-})
+}
 
 //Update one serialNum by ID
-router.put('/update/:operation', (req, res) => {
+const updateSerialNum = (req, res) => {
     let { operation } = req.params
     let update = null
     if (operation == '2') {
@@ -80,12 +78,20 @@ router.put('/update/:operation', (req, res) => {
     }
     SerialNum.findOneAndUpdate({ serialNum: req.body.serialNum }, update, { new: true })
         .then((updatedPost) => res.status(201).json({ updatedPost: updatedPost }))
-})
+}
 
 //Delete a serialNum by ID
-router.delete('/:id', (req, res) => {
+const deleteSerialNum = (req, res) => {
     SerialNum.findByIdAndDelete(req.params.id)
         .then((updatedPost) => res.status(204).json({ updatedPost: updatedPost }))
-})
+}
 
-module.exports = router
+module.exports = {
+    getAllSerialNums,
+    createSerialNum,
+    getJustSerialNumbers,
+    editSerialNumberJobData,
+    getSingleNum,
+    updateSerialNum,
+    deleteSerialNum
+}
