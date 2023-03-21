@@ -1,16 +1,15 @@
-const express = require('express')
 const Part = require('../models/part')
-const router = express.Router()
 const Worker = require('../models/worker')
+const mongoose = require('mongoose')
 
 //Show all workers
-router.get('/', (req, res) => {
+const getWorkers = (req, res) => {
     Worker.find()
         .then(data => res.status(200).json({ data: data }))
-})
+}
 
 // Make a new worker and add to a parts draw list 
-router.post('/', async (req, res) => {
+const createWorker = async (req, res) => {
     const { data, partID } = req.body
     Worker.create(req.body)
         .then(async (worker) => {
@@ -19,18 +18,23 @@ router.post('/', async (req, res) => {
             part.drawList.push(worker._id)
             await part.save()
         })
-})
+}
 
 //Update one worker by ID
-router.put('/:id', (req, res) => {
+const updateWorker = (req, res) => {
     Worker.findByIdAndUpdate(req.params.id, req.body, { new: true })
         .then((updatedPost) => res.status(201).json({ updatedPost: updatedPost }))
-})
+}
 
 //Delete a worker by ID
-router.delete('/:id', (req, res) => {
+const deleteWorker = (req, res) => {
     Worker.findByIdAndDelete(req.params.id)
         .then((updatedPost) => res.status(204).json({ updatedPost: updatedPost }))
-})
+}
 
-module.exports = router
+module.exports = {
+    getWorkers,
+    createWorker,
+    updateWorker,
+    deleteWorker
+}

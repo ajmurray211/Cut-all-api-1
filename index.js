@@ -2,7 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const dotenv = require('dotenv')
 const mongoose = require('mongoose')
-const workerController = require('./controllers/workers')
+const workerRoutes = require('./routes/workers.js')
 const partRoutes = require('./routes/parts.js')
 const ticketRoutes = require('./routes/tickets')
 const serialNumRoutes = require('./routes/serialNums.js')
@@ -37,7 +37,7 @@ app.get('/', (req, res) => {
 })
 
 // routes
-app.use('/workers', workerController)
+app.use('/workers', workerRoutes)
 app.use('/parts', partRoutes)
 app.use('/ticket', ticketRoutes)
 app.use('/serialNum', serialNumRoutes)
