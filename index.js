@@ -6,7 +6,7 @@ const workerRoutes = require('./routes/workers.js')
 const partRoutes = require('./routes/parts.js')
 const ticketRoutes = require('./routes/tickets')
 const serialNumRoutes = require('./routes/serialNums.js')
-const timeCardController = require('./controllers/timeCards')
+const timeCardRoutes = require('./routes/timeCards.js')
 
 const app = express()
 dotenv.config()
@@ -41,7 +41,7 @@ app.use('/workers', workerRoutes)
 app.use('/parts', partRoutes)
 app.use('/ticket', ticketRoutes)
 app.use('/serialNum', serialNumRoutes)
-app.use('/timeCards', timeCardController)
+app.use('/timeCards', timeCardRoutes)
 
 app.set("port", process.env.PORT || 8080);
 
