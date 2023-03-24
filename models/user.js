@@ -29,7 +29,7 @@ const userSchema = new Schema({
   employeeNumber: {
     type: String
   },
-  truckNummber: {
+  truckNumber: {
     type: String
   },
 })

@@ -25,7 +25,7 @@ const loginUser = async (req, res) => {
         // create a token
         const token = createToken(user._id)
 
-        res.status(200).json({ email, token })
+        res.status(200).json({ ...user._doc })
     } catch (err) {
         res.status(400).json({ error: err.message })
     }
@@ -47,4 +47,17 @@ const signupUser = async (req, res) => {
     }
 }
 
-module.exports = { getUsers, signupUser, loginUser }
+// edit a users informaiton
+const editUser = async (req, res) => {
+    const { email } = req.params
+    const data = req.body
+
+    try {
+        const updatedUser = await User.findOneAndUpdate({ email: email }, data, { new: true })
+        res.status(200).json({ updatedUser, mssg:'You have updated a user' })
+    } catch (err) {
+        res.status(400).json({ error: err.message })
+    }
+}
+
+module.exports = { getUsers, signupUser, loginUser, editUser }
