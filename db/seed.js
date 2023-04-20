@@ -194,14 +194,14 @@ const serialList = [
         name: "18\" concrete blade",
         history: [
             {
-                date: "02/20/2023",
-                depth: "5",
-                runLength: "40"
-            },
-            {
                 date: "02/21/2023",
                 depth: "30",
                 runLength: "17"
+            },
+            {
+                date: "02/20/2023",
+                depth: "5",
+                runLength: "40"
             },
             {
                 date: "02/22/2023",
@@ -221,18 +221,16 @@ const serialList = [
                 date: "02/20/2023",
                 depth: "5",
                 runLength: "40"
-            },
-            {
-                date: "02/21/2023",
-                depth: "30",
-                runLength: "17"
-            },
-            {
-                date: "02/22/2023",
-                depth: "3",
-                runLength: "12"
-            },
+            }
         ]
+    },
+    {
+        manufacture: "Hilti",
+        serialNum: "T1",
+        assignedTo: '',
+        specNum: "43123468479Bjgckh2",
+        name: "42\" wall blade",
+        
     },
 ]
 

@@ -6,7 +6,7 @@ const serialNumSchema = new Schema({
     name: String,
     specNum: String,
     serialNum: String,
-    assignedTo : String,
+    assignedTo: String,
     history: [
         {
             runLength: String,
@@ -14,6 +14,6 @@ const serialNumSchema = new Schema({
             date: String,
         }
     ]
-})
+}, { timestamps: true })
 
 module.exports = mongoose.model('SerialNum', serialNumSchema)

@@ -36,8 +36,9 @@ const createTicket = async (req, res) => {
 }
 
 const topTicketNum = async (req, res) => {
-    Ticket.find({}).sort({ ticketNum: -1 }).limit(1)
-        .then(data => res.status(200).json(data))
+    // (await (await Ticket.find({}).sort({ ticketNum: -1 }).limit(1)))
+    await Ticket.findOne({}, 'ticketNum').sort({ ticketNum: -1 })
+        .then(data => res.status(200).json({ data: data }))
 }
 
 const getSingleTicket = async (req, res) => {

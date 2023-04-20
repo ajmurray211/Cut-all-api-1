@@ -78,9 +78,9 @@ const updatePart = async (req, res) => {
         return res.status(404).json({ error: 'No such Part exsists.' })
     }
 
-    Part.findByIdAndUpdate(id, ...req.body, { new: true })
+    Part.findByIdAndUpdate(id, req.body, { new: true })
         .then((updatedPost) => res.status(201).json({ updatedPost: updatedPost }))
-        .catch(error => res.status(404).json({ error: 'No such Part exsists.' })
+        .catch(error => res.status(404).json({ error: 'No such Part exists.' })
         )
 }
 
@@ -89,7 +89,7 @@ const deletePart = async (req, res) => {
     const { id } = req.params
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({ error: 'No such Part exsists.' })
+        return res.status(404).json({ error: 'No such Part exists.' })
     }
 
     const part = Part.findByIdAndDelete({ _id: id })

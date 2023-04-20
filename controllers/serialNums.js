@@ -2,10 +2,22 @@ const express = require('express')
 const SerialNum = require('../models/serialNum')
 
 //Show all SerialNums
-const getAllSerialNums = (req, res) => {
-    SerialNum.find({}).sort({ tool: 1 })
-        .then(data => res.status(200).json({ data: data }))
-}
+const getAllSerialNums = async (req, res) => {
+  try {
+    const data = await SerialNum.find({});
+    const sortedData = data.map(doc => {
+      if (doc.history) {
+        doc.history.sort((a, b) => new Date(a.date) - new Date(b.date));
+      }
+      return doc;
+    });
+    res.status(200).json({ data: sortedData });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error retrieving serial numbers", error: err });
+  }
+};
+
 
 // Make a new SerialNum
 const createSerialNum = async (req, res) => {
