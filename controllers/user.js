@@ -9,7 +9,7 @@ const createToken = (_id) => {
 const getUsers = async (req, res) => {
     try {
         const users = await User.find({})
-        res.status(200).json({ users })
+        res.status(200).json({ data: users })
     } catch (err) {
         res.status(400).json({ error: err.message })
     }
@@ -54,7 +54,7 @@ const editUser = async (req, res) => {
 
     try {
         const updatedUser = await User.findOneAndUpdate({ email: email }, data, { new: true })
-        res.status(200).json({ updatedUser, mssg:'You have updated a user' })
+        res.status(200).json({ updatedUser, mssg: 'You have updated a user' })
     } catch (err) {
         res.status(400).json({ error: err.message })
     }

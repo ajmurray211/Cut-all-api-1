@@ -41,6 +41,17 @@ const topTicketNum = async (req, res) => {
         .then(data => res.status(200).json({ data: data }))
 }
 
+const getWorkerList = async (req, res) => {
+    try {
+        const { who } = req.params;
+        const data = await Ticket.find({ worker: who }).sort({ _id: -1 });
+        res.status(200).json({ data });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Server Error' });
+    }
+};
+
 const getSingleTicket = async (req, res) => {
     const { id } = req.params
 
@@ -83,5 +94,6 @@ module.exports = {
     topTicketNum,
     getSingleTicket,
     updateSingleTicket,
-    deleteTicket
+    deleteTicket,
+    getWorkerList
 }

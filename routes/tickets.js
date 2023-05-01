@@ -7,8 +7,8 @@ const {
     topTicketNum,
     getSingleTicket,
     updateSingleTicket,
-    deleteTicket
-
+    deleteTicket,
+    getWorkerList
 } = require('../controllers/tickets.js')
 
 //Show all tickets
@@ -19,6 +19,9 @@ router.get('/search', searchTickets)
 
 // get the top ticket number
 router.get('/topTicketNum', topTicketNum)
+
+// get a workers ticket list
+router.get('/workerList/:who', getWorkerList)
 
 // get a single ticket
 router.get('/:id', getSingleTicket)
