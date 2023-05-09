@@ -32,6 +32,14 @@ const userSchema = new Schema({
   truckNumber: {
     type: String
   },
+  isAdmin: {
+    type: Boolean,
+    default: false
+  },
+  timeCards: [{
+    type: Schema.Types.ObjectId,
+    ref: 'TimeCard'
+  }]
 })
 
 // static signup method
