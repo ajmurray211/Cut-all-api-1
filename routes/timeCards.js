@@ -4,14 +4,18 @@ const {
     getTimeCards,
     createTimeCard,
     updateTimeCard,
-    deleteTimeCard
+    deleteTimeCard,
+    deleteAllTimeCards
 } = require('../controllers/timeCards')
 
 //Show all TimeCards
 router.get('/', getTimeCards)
 
 // Make a new TimeCard and add to a parts draw list 
-router.post('/', createTimeCard)
+router.post('/:userId', createTimeCard)
+
+//Delete a TimeCard by ID
+router.delete('/', deleteAllTimeCards)
 
 //Update one TimeCard by ID
 router.put('/:name', updateTimeCard)

@@ -48,18 +48,9 @@ async function deleteTimeCard(id) {
     }
 }
 
-async function deleteAllTimecards() {
-    try {
-        await TimeCard.deleteMany();
-    } catch (err) {
-        throw new Error(err.message);
-    }
-}
-
 module.exports = {
     createTimeCard,
     getAllTimeCards,
     updateTimeCard,
     deleteTimeCard,
-    deleteAllTimecards,
 };
