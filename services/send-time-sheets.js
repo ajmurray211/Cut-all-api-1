@@ -2,58 +2,56 @@ const express = require('express');
 const router = express.Router();
 const nodemailer = require('nodemailer');
 const { getTimeCards, deleteAllTimeCards } = require('../controllers/timeCards');
+const { getAllTimeCards } = require('./timeCardService');
+const { google } = require('googleapis');
+const OAuth2 = google.auth.OAuth2;
+require('dotenv').config();
 
-router.post('/', async (req, res) => {
+const oauth2Client = new OAuth2(
+    process.env.OAUTH_CLIENT_ID,
+    process.env.OAUTH_CLIENT_SECRET,
+    process.env.REDIRECT_URI
+);
+oauth2Client.setCredentials({ refresh_token: process.env.OAUTH_REFRESH_TOKEN });
+
+const sendTimeCards = async () => {
     try {
-        // Get all time cards
-        const timeCards = await getTimeCards();
+        const { token } = await oauth2Client.getAccessTokenAsync();
+        const accessToken = token;
 
-        // Create HTML table for time cards
-        let tableHtml = '<table><thead><tr><th>Name</th><th>Date</th><th>Hours</th><th>Notes</th></tr></thead><tbody>';
-
-        timeCards.forEach(timeCard => {
-            tableHtml += `<tr><td>${timeCard.name}</td><td>${timeCard.date}</td><td>${timeCard.hours}</td><td>${timeCard.notes}</td></tr>`;
-        });
-
-        tableHtml += '</tbody></table>';
-
-        // Send email with time card table as HTML
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
+                type: 'OAuth2',
                 user: process.env.EMAIL_USERNAME,
-                pass: process.env.EMAIL_PASSWORD
-            }
+                clientId: process.env.OAUTH_CLIENT_ID,
+                clientSecret: process.env.OAUTH_CLIENT_SECRET,
+                refreshToken: process.env.OAUTH_REFRESH_TOKEN,
+                accessToken: accessToken,
+            },
         });
 
         const mailOptions = {
             from: 'aj.murr4y@gmail.com',
             to: 'murray.aj.murray@gmail.com',
             subject: 'Time sheets',
-            html: tableHtml
+            text: 'hello from nodemailer and the cutall api'
         };
 
         transporter.sendMail(mailOptions, async function (error, info) {
             if (error) {
                 console.log(error);
-                res.status(500).json({ message: 'Failed to send time sheets' });
+                throw new Error('Failed to send time sheets');
             } else {
                 console.log('Email sent: ' + info.response);
-
-                // Delete all time cards after successful emailing
-                try {
-                    await deleteAllTimeCards();
-                    res.json({ message: 'Time sheets sent and deleted' });
-                } catch (err) {
-                    console.log(err);
-                    res.status(500).json({ message: 'Failed to delete time cards' });
-                }
             }
         });
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({ message: 'Failed to send time sheets' });
-    }
-});
 
-module.exports = router;
+    } catch (err) {
+        console.log('Error refreshing access token:', err);
+        console.log('Token refresh response:', err.response.data);
+        throw new Error('Failed to send time sheets');
+    }
+};
+
+module.exports = { sendTimeCards };

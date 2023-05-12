@@ -8,6 +8,8 @@ const ticketRoutes = require('./routes/tickets')
 const serialNumRoutes = require('./routes/serialNums.js')
 const timeCardRoutes = require('./routes/timeCards.js')
 const userRoutes = require('./routes/user.js')
+const cron = require('node-cron');
+const { sendTimeCards } = require('./services/send-time-sheets.js')
 
 const app = express()
 dotenv.config()
@@ -36,6 +38,25 @@ db.once('open', () => {
 app.get('/', (req, res) => {
   res.send('test test new api')
 })
+
+// Schedule email to send every Sunday at 11:30pm
+// cron.schedule('30 23 * * 0', async () => {
+//     await sendTimeCards();
+// }, {
+//     scheduled: true,
+//     timezone: "America/New_York"
+// });
+
+// Schedule email to send every 30 minutes to be used for testing
+cron.schedule('*/30 * * * *', async () => {
+  console.log('cron email run')
+  // await sendTimeCards();
+}, {
+  scheduled: true,
+  timezone: "America/New_York"
+});
+
+
 
 // routes
 app.use('/workers', workerRoutes)
