@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const nodemailer = require('nodemailer');
-const { getTimeCards, deleteAllTimeCards } = require('../controllers/timeCards');
 const { getAllTimeCards } = require('./timeCardService');
 const { google } = require('googleapis');
 const OAuth2 = google.auth.OAuth2;
 require('dotenv').config();
+const PDFDocument = require('pdfkit');
 
 const oauth2Client = new OAuth2(
     process.env.OAUTH_CLIENT_ID,
@@ -31,11 +31,30 @@ const sendTimeCards = async () => {
             },
         });
 
+        const doc = new PDFDocument(); // Create a new PDF document
+
+        // Add content to the PDF document
+        doc.text('Hello from nodemailer and the cutall API');
+
+        // Save the PDF to a buffer
+        const buffer = await new Promise((resolve) => {
+            const chunks = [];
+            doc.on('data', (chunk) => chunks.push(chunk));
+            doc.on('end', () => resolve(Buffer.concat(chunks)));
+            doc.end();
+        });
+
         const mailOptions = {
             from: 'aj.murr4y@gmail.com',
             to: 'murray.aj.murray@gmail.com',
             subject: 'Time sheets',
-            text: 'hello from nodemailer and the cutall api'
+            text: 'Please find attached the time sheets',
+            attachments: [
+                {
+                    filename: 'time_sheet.pdf',
+                    content: buffer, // Attach the PDF buffer as content
+                },
+            ],
         };
 
         transporter.sendMail(mailOptions, async function (error, info) {
