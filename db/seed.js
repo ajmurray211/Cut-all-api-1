@@ -3,6 +3,7 @@ const dotenv = require('dotenv')
 dotenv.config()
 const Part = require('../models/part')
 const Serial = require('../models/serialNum')
+const TimeCard = require('../models/timeCard')
 
 let mongoURI = ""
 
@@ -230,7 +231,160 @@ const serialList = [
         assignedTo: '',
         specNum: "43123468479Bjgckh2",
         name: "42\" wall blade",
-        
+
+    },
+]
+
+const timeCardList = [
+    {
+        user: '641e0f753b1c88e8217277b3',
+        date: '5/9/2023',
+        startTime: '17:30',
+        endTime: '18:30',
+        workCode: 'ccd',
+        jobName: 'test inc',
+        hours: '65',
+        notes: 'None',
+    },
+    {
+        user: '641e0f753b1c88e8217277b3',
+        date: '5/10/2023',
+        startTime: '17:30',
+        endTime: '18:30',
+        workCode: 'ccd',
+        jobName: 'test inc',
+        hours: '65',
+        notes: 'None',
+    },
+    {
+        user: '641e0f753b1c88e8217277b3',
+        date: '5/11/2023',
+        startTime: '17:30',
+        endTime: '18:30',
+        workCode: 'ccd',
+        jobName: 'test inc',
+        hours: '65',
+        notes: 'None',
+    },
+    {
+        user: '641e0f753b1c88e8217277b3',
+        date: '5/12/2023',
+        startTime: '17:30',
+        endTime: '18:30',
+        workCode: 'ccd',
+        jobName: 'test inc',
+        hours: '65',
+        notes: 'None',
+    },
+    {
+        user: '641e0f753b1c88e8217277b3',
+        date: '5/13/2023',
+        startTime: '17:30',
+        endTime: '18:30',
+        workCode: 'ccd',
+        jobName: 'test inc',
+        hours: '65',
+        notes: 'None',
+    },
+    {
+        user: '644f06ab818849931dcf3ba3',
+        date: '5/9/2023',
+        startTime: '17:30',
+        endTime: '18:30',
+        workCode: 'ccd',
+        jobName: 'test inc',
+        hours: '65',
+        notes: 'None',
+    },
+    {
+        user: '644f06ab818849931dcf3ba3',
+        date: '5/10/2023',
+        startTime: '17:30',
+        endTime: '18:30',
+        workCode: 'ccd',
+        jobName: 'test inc',
+        hours: '65',
+        notes: 'None',
+    },
+    {
+        user: '644f06ab818849931dcf3ba3',
+        date: '5/11/2023',
+        startTime: '17:30',
+        endTime: '18:30',
+        workCode: 'ccd',
+        jobName: 'test inc',
+        hours: '65',
+        notes: 'None',
+    },
+    {
+        user: '644f06ab818849931dcf3ba3',
+        date: '5/12/2023',
+        startTime: '17:30',
+        endTime: '18:30',
+        workCode: 'ccd',
+        jobName: 'test inc',
+        hours: '65',
+        notes: 'None',
+    },
+    {
+        user: '644f06ab818849931dcf3ba3',
+        date: '5/13/2023',
+        startTime: '17:30',
+        endTime: '18:30',
+        workCode: 'ccd',
+        jobName: 'test inc',
+        hours: '65',
+        notes: 'None',
+    },
+    {
+        user: '644f0739818849931dcf3bb8',
+        date: '5/9/2023',
+        startTime: '17:30',
+        endTime: '18:30',
+        workCode: 'ccd',
+        jobName: 'test inc',
+        hours: '65',
+        notes: 'None',
+    },
+    {
+        user: '644f0739818849931dcf3bb8',
+        date: '5/10/2023',
+        startTime: '17:30',
+        endTime: '18:30',
+        workCode: 'ccd',
+        jobName: 'test inc',
+        hours: '65',
+        notes: 'None',
+    },
+    {
+        user: '644f0739818849931dcf3bb8',
+        date: '5/11/2023',
+        startTime: '17:30',
+        endTime: '18:30',
+        workCode: 'ccd',
+        jobName: 'test inc',
+        hours: '65',
+        notes: 'None',
+    },
+    {
+        user: '644f0739818849931dcf3bb8',
+        date: '5/12/2023',
+        startTime: '17:30',
+        endTime: '18:30',
+        workCode: 'ccd',
+        jobName: 'test inc',
+        hours: '65',
+        notes: 'None',
+    },
+    {
+        user: '644f0739818849931dcf3bb8',
+        date: '5/13/2023',
+        startTime: '17:30',
+        endTime: '18:30',
+        workCode: 'ccd',
+        jobName: 'test inc',
+        hours: '65',
+        notes: 'None',
     },
 ]
 
@@ -252,14 +406,31 @@ const seedDB = async () => {
             manufacture: serialList[i].manufacture,
             serialNum: serialList[i].serialNum,
             assignedTo: '',
-            assignedTo: '',specNum: serialList[i].
-            specNum,
+            assignedTo: '', specNum: serialList[i].
+                specNum,
             name: serialList[i].name,
-            history:serialList[i].history
+            history: serialList[i].history
         })
         await num.save()
     }
+
+    await TimeCard.deleteMany({})
+    // for (let i in timeCardList) {
+    //     const card = new TimeCard({
+    //         user: timeCardList[i].user,
+    //         date: timeCardList[i].date,
+    //         startTime: timeCardList[i].startTime,
+    //         endTime: timeCardList[i].endTime,
+    //         workCode: timeCardList[i].workCode,
+    //         jobName: timeCardList[i].jobName,
+    //         hours: timeCardList[i].hours,
+    //         notes: timeCardList[i].notes,
+    //     })
+    //     console.log(card)
+    //     await card.save()
+    // }
 }
+
 seedDB().then(() => {
     mongoose.connection.close()
 })

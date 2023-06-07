@@ -10,6 +10,7 @@ const timeCardRoutes = require('./routes/timeCards.js')
 const userRoutes = require('./routes/user.js')
 const cron = require('node-cron');
 const { sendTimeCards } = require('./services/send-time-sheets.js')
+const { getUsers } = require('./services/timeCardService.js')
 
 const app = express()
 dotenv.config()
@@ -48,15 +49,21 @@ app.get('/', (req, res) => {
 // });
 
 // Schedule email to send every 30 minutes to be used for testing
-cron.schedule('*/30 * * * *', async () => {
-  console.log('cron email run')
-  // await sendTimeCards();
+cron.schedule('*/1 * * * *', async () => {
+  console.log('cron: email timcards')
+
+  const users = await getUsers()
+
+  const mappedTimeCards = users.map(async (user) => {
+    if (user.timeCards.length !== 0) {
+      await sendTimeCards(user);
+    }
+  })
+
 }, {
   scheduled: true,
   timezone: "America/New_York"
 });
-
-
 
 // routes
 app.use('/workers', workerRoutes)

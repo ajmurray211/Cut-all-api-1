@@ -8,23 +8,36 @@ const getTimeCards = (req, res) => {
         .then(data => res.status(200).json({ data: data }))
 }
 
-// Make a new TimeCard and add to a parts draw list 
 const createTimeCard = async (req, res) => {
     try {
-        const user = await User.findById(req.params.userId);
+        const { date, sheetBody } = req.body;
+        const { userId } = req.params;
+        const user = await User.findById(userId);
+
+        console.log('hit timecard post')
+
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-        const timecardData = req.body;
-        const timecard = new TimeCard({ ...timecardData, user: user._id });
-        await timecard.save();
-        user.timeCards.push(timecard._id);
+
+        const timeCards = [];
+
+        for (const row of sheetBody) {
+            const timecard = new TimeCard({ ...row, user: userId, date: date });
+            console.log(timecard);
+            await timecard.save();
+            user.timeCards.push(timecard._id);
+            timeCards.push(timecard);
+        }
+
         await user.save();
-        res.status(201).json(timecard);
+
+        return res.status(201).json({ message: 'Time cards created successfully', timeCards });
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
 };
+
 
 //Update one TimeCard by ID
 const updateTimeCard = (req, res) => {
