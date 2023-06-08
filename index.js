@@ -11,6 +11,8 @@ const userRoutes = require('./routes/user.js')
 const cron = require('node-cron');
 const { sendTimeCards } = require('./services/send-time-sheets.js')
 const { getUsers } = require('./services/timeCardService.js')
+const { getInventory } = require('./services/inventoryServices.js')
+const { emailLowInventory } = require('./services/send-low-inventory.js')
 
 const app = express()
 dotenv.config()
@@ -42,23 +44,24 @@ app.get('/', (req, res) => {
 
 // Schedule email to send every Sunday at 11:30pm
 // cron.schedule('30 23 * * 0', async () => {
-//     await sendTimeCards();
-// }, {
-//     scheduled: true,
-//     timezone: "America/New_York"
-// });
 
 // Schedule email to send every 30 minutes to be used for testing
 cron.schedule('*/1 * * * *', async () => {
-  console.log('cron: email timcards')
+
+  console.log('cron job run')
 
   const users = await getUsers()
+  const inventory = await getInventory()
 
   const mappedTimeCards = users.map(async (user) => {
     if (user.timeCards.length !== 0) {
       await sendTimeCards(user);
     }
   })
+
+  if (inventory) {
+    await emailLowInventory(inventory)
+  }
 
 }, {
   scheduled: true,
