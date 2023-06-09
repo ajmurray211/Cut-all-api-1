@@ -3,6 +3,7 @@ const { google } = require('googleapis');
 const { updateEmailedField } = require('./inventoryServices');
 const OAuth2 = google.auth.OAuth2;
 require('dotenv').config();
+const path = require('path');
 const PDFDocument = require('pdfkit');
 
 const oauth2Client = new OAuth2(
@@ -33,7 +34,7 @@ const emailLowInventory = async (inventory) => {
         const doc = new PDFDocument(); // Create a new PDF document
 
         // Logo
-        const imagePath = 'cutall_logo.png';
+        const imagePath = path.join(__dirname, '..', 'uploads', 'cutall_logo.png');
         doc.image(imagePath, 50, 50, { width: 100 });
 
         // Title

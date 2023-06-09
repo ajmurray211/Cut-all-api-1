@@ -4,6 +4,7 @@ const OAuth2 = google.auth.OAuth2;
 require('dotenv').config();
 const PDFDocument = require('pdfkit');
 const { deleteTimeCardsByUser } = require('./timeCardService');
+const path = require('path');
 
 const oauth2Client = new OAuth2(
     process.env.OAUTH_CLIENT_ID,
@@ -33,7 +34,7 @@ const sendTimeCards = async (user) => {
         const doc = new PDFDocument(); // Create a new PDF document
 
         // Logo
-        const imagePath = 'cutall_logo.png';
+        const imagePath = path.join(__dirname, '..', 'uploads', 'cutall_logo.png');
         doc.image(imagePath, 50, 50, { width: 100 });
 
         // Data table

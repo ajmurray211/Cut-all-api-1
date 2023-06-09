@@ -30,18 +30,13 @@ const partSchema = new Schema({
             ref: 'Worker'
         }
     ],
-    // image: {
-    //     filename: String,
-    //     contentType: String,
-    //     data: Buffer,  
-    //     createdAt: {
-    //         type: Date,
-    //         default: Date.now
-    //     }
-    // }
+    image: {
+        type: String,
+        default: 'uploads/cutall_logo.png'
+    },
 });
 
-function getStartOfWeek() {  
+function getStartOfWeek() {
     const now = new Date();
     const dayOfWeek = now.getDay();
     const daysSinceMonday = dayOfWeek - 1; // Sunday is 0, Monday is 1, etc.
