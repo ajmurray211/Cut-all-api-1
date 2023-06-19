@@ -15,22 +15,28 @@ const userSchema = new Schema({
     required: true
   },
   firstName: {
-    type: String
+    type: String,
+    required: true
   },
   lastName: {
-    type: String
+    type: String,
+    required: true
   },
   title: {
-    type: String
+    type: String,
+    default: ''
   },
   status: {
-    type: String
+    type: String,
+    default: ''
   },
   employeeNumber: {
-    type: String
+    type: String,
+    default: ''
   },
   truckNumber: {
-    type: String
+    type: String,
+    default: ''
   },
   isAdmin: {
     type: Boolean,
@@ -43,7 +49,9 @@ const userSchema = new Schema({
 })
 
 // static signup method
-userSchema.statics.signup = async function (email, password) {
+userSchema.statics.signup = async function (args) {
+  console.log(args)
+  const { email, password, firstName, lastName, isAdmin, employeeNumber, truckNumber, status, title } = args
   // validation
   if (!email || !password) {
     throw Error('All fields must be filled')
@@ -63,7 +71,7 @@ userSchema.statics.signup = async function (email, password) {
   const salt = await bcrypt.genSalt(10)
   const hash = await bcrypt.hash(password, salt)
 
-  const user = await this.create({ email, password: hash })
+  const user = await this.create({ email, password: hash, firstName, lastName, isAdmin, employeeNumber, truckNumber, status, title })
 
   return user
 }
@@ -74,7 +82,7 @@ userSchema.statics.login = async function (email, password) {
     throw Error('All fields must be filled')
   }
 
-  const user = await this.findOne({ email })
+  const user = await this.findOne({ email }).populate('timeCards')
   if (!user) {
     throw Error('Incorrect email')
   }

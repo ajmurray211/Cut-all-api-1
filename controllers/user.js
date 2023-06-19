@@ -34,14 +34,17 @@ const loginUser = async (req, res) => {
 
 // signup a user
 const signupUser = async (req, res) => {
+    console.log(req.body)
     const { email, password } = req.body
     try {
-        const user = await User.signup(email, password)
+        const user = await User.signup(req.body)
 
         // create a token
         const token = createToken(user._id)
 
-        res.status(200).json({ email, token })
+        console.log(user)
+
+        res.status(200).json({ ...user._doc, token })
     } catch (err) {
         res.status(400).json({ error: err.message })
     }
@@ -60,4 +63,12 @@ const editUser = async (req, res) => {
     }
 }
 
-module.exports = { getUsers, signupUser, loginUser, editUser }
+const deleteUser = async (req, res) => {
+    const { id } = req.params
+    await User.findByIdAndDelete(id)
+        .then(response => {
+            res.status(200).json({ message: 'You have deleted the user' })
+        })
+}
+
+module.exports = { getUsers, signupUser, loginUser, editUser, deleteUser }
