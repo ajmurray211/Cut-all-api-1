@@ -25,11 +25,13 @@ mongoose.set('strictQuery', true)
 
 // mongoose.connect(process.env.LOCALHOST)
 let mongoURI = ""
-
+let emailTime = ""
 if (process.env.NODE_ENV === "production") {
   mongoURI = process.env.DB_URL;
+  emailTime = '30 23 * * 0'
 } else {
-  mongoURI = 'mongodb://localhost:27017/cut-all-api-1';
+  mongoURI = process.env.LOCALHOST;
+  emailTime = '*/1 * * * *'
 }
 
 mongoose.connect(mongoURI)
@@ -48,8 +50,7 @@ app.get('/', (req, res) => {
 // cron.schedule('30 23 * * 0', async () => {
 
 // Schedule email to send every 30 minutes to be used for testing
-cron.schedule('*/1 * * * *', async () => {
-
+cron.schedule(emailTime, async () => {
   console.log('cron job run')
 
   const users = await getUsers()

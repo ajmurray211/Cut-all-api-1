@@ -1,5 +1,6 @@
 const Ticket = require('../models/ticket')
 const mongoose = require('mongoose')
+const { emailTicket } = require('../services/send-ticket')
 
 //Show all tickets
 const getTickets = async (req, res) => {
@@ -30,13 +31,18 @@ const searchTickets = async (req, res) => {
 
 // Make a new ticket
 const createTicket = async (req, res) => {
-    const data = req.body
-    Ticket.create(data)
-        .then(ticket => res.status(201).json({ ticket: ticket }))
-}
+    try {
+        const data = req.body;
+        const ticket = await Ticket.create(data);
+        await emailTicket(ticket);
+        res.status(201).json({ ticket: ticket, message: 'You have created a new job ticket in the ledger!' });
+    } catch (err) {
+        console.error(err);
+        res.status(400).json({ error: 'An error occurred while creating the ticket.' });
+    }
+};
 
 const topTicketNum = async (req, res) => {
-    // (await (await Ticket.find({}).sort({ ticketNum: -1 }).limit(1)))
     await Ticket.findOne({}, 'ticketNum').sort({ ticketNum: -1 })
         .then(data => res.status(200).json({ data: data }))
 }

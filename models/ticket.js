@@ -51,6 +51,7 @@ const ticketSchema = new Schema({
     truckNum: String,
     wallSawing: String,
     waterControl: String,
+    miniBreak: String,
     worker: String,
     jobPerQuote: Boolean,
     workAdded: Boolean
