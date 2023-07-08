@@ -19,17 +19,33 @@ const sendTimeCards = async (user) => {
         const { token } = await oauth2Client.getAccessTokenAsync();
         const accessToken = token;
 
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                type: 'OAuth2',
-                user: process.env.EMAIL_USERNAME,
-                clientId: process.env.OAUTH_CLIENT_ID,
-                clientSecret: process.env.OAUTH_CLIENT_SECRET,
-                refreshToken: process.env.OAUTH_REFRESH_TOKEN,
-                accessToken: accessToken,
-            },
-        });
+        let transporter = {}
+        console.log(process.env.NODE_ENV)
+        if (process.env.NODE_ENV === "production") {
+            transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    type: 'OAuth2',
+                    user: process.env.EMAIL_USERNAME,
+                    clientId: process.env.OAUTH_CLIENT_ID,
+                    clientSecret: process.env.OAUTH_CLIENT_SECRET,
+                    refreshToken: process.env.OAUTH_REFRESH_TOKEN,
+                    accessToken: accessToken,
+                },
+            });
+        } else {
+            transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    type: 'OAuth2',
+                    user: process.env.EMAIL_USERNAME,
+                    clientId: process.env.OAUTH_CLIENT_ID_DEV,
+                    clientSecret: process.env.OAUTH_CLIENT_SECRET_DEV,
+                    refreshToken: process.env.OAUTH_REFRESH_TOKEN_DEV,
+                    accessToken: accessToken,
+                },
+            });
+        }
 
         const doc = new PDFDocument(); // Create a new PDF document
 
@@ -177,7 +193,7 @@ const sendTimeCards = async (user) => {
             from: 'aj.murr4y@gmail.com',
             to: 'murray.aj.murray@gmail.com',
             subject: `Time sheets for ${user.firstName} ${user.lastName}`,
-            text: 'Please find attached the time sheets',
+            text: 'Time sheets are attached.',
             attachments: [
                 {
                     filename: `${user.firstName}_time_sheet.pdf`,
