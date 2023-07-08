@@ -18,32 +18,17 @@ const emailTicket = async (ticket) => {
         const { token } = await oauth2Client.getAccessTokenAsync();
         const accessToken = token;
 
-        let transporter = {}
-        if (process.env.NODE_ENV === "production") {
-            transporter = nodemailer.createTransport({
-                service: 'gmail',
-                auth: {
-                    type: 'OAuth2',
-                    user: process.env.EMAIL_USERNAME,
-                    clientId: process.env.OAUTH_CLIENT_ID,
-                    clientSecret: process.env.OAUTH_CLIENT_SECRET,
-                    refreshToken: process.env.OAUTH_REFRESH_TOKEN,
-                    accessToken: accessToken,
-                },
-            });
-        } else {
-            transporter = nodemailer.createTransport({
-                service: 'gmail',
-                auth: {
-                    type: 'OAuth2',
-                    user: process.env.EMAIL_USERNAME,
-                    clientId: process.env.OAUTH_CLIENT_ID_DEV,
-                    clientSecret: process.env.OAUTH_CLIENT_SECRET_DEV,
-                    refreshToken: process.env.OAUTH_REFRESH_TOKEN_DEV,
-                    accessToken: accessToken,
-                },
-            });
-        }
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                type: 'OAuth2',
+                user: process.env.EMAIL_USERNAME,
+                clientId: process.env.OAUTH_CLIENT_ID,
+                clientSecret: process.env.OAUTH_CLIENT_SECRET,
+                refreshToken: process.env.OAUTH_REFRESH_TOKEN,
+                accessToken: accessToken,
+            }
+        })
 
         function makeTable(doc, title, headers, data, yPosition, columnCount) {
             const pageWidth = doc.page.width;
