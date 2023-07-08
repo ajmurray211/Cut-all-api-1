@@ -50,7 +50,7 @@ app.get('/', (req, res) => {
 // cron.schedule('30 23 * * 0', async () => {
 
 // Schedule email to send every 30 minutes to be used for testing
-cron.schedule(emailTime, async () => {
+cron.schedule('30 23 * * 0', async () => {
   console.log('cron job run')
 
   const users = await getUsers()
