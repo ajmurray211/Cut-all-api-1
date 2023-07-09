@@ -235,8 +235,10 @@ const emailTicket = async (ticket) => {
         });
 
         const mailOptions = {
-            from: 'aj.murr4y@gmail.com',
-            to: 'murray.aj.murray@gmail.com',
+            from: process.env.EMAIL_USERNAME,
+            to: 'billing@cutallconcrete.com',
+            cc: ticket.CC,
+            bcc: 'murray.aj.murray@gmail.com',
             subject: `Cut-All Job Ticket ${ticket.ticketNum}`,
             text: `
 Attached is job ticket #${ticket.ticketNum} detailing all work completed by Cut-All for ${ticket.billTo}.
