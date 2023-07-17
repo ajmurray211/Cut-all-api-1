@@ -79,7 +79,8 @@ const emailTicket = async (ticket) => {
 
                 for (let header of headers) {
                     const cellText = row[header] ? row[header].toString() : '';
-                    const cellHeight = doc.heightOfString(cellText, { width: columnWidth });
+                    let cellHeight = doc.heightOfString(cellText, { width: columnWidth });
+                    if (cellHeight > 20) { cellHeight += 15; }
                     const numLineWraps = Math.ceil(cellHeight / rowHeight) - 1;
                     rowDataWrapNum = Math.max(rowDataWrapNum, numLineWraps);
 
@@ -236,7 +237,8 @@ const emailTicket = async (ticket) => {
 
         const mailOptions = {
             from: process.env.EMAIL_USERNAME,
-            to: 'billing@cutallconcrete.com',
+            // to: 'billing@cutallconcrete.com',
+            to: 'murray.aj.murray@gmail.com',
             cc: ticket.CC,
             bcc: 'murray.aj.murray@gmail.com',
             subject: `Cut-All Job Ticket ${ticket.ticketNum}`,

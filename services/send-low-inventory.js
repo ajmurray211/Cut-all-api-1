@@ -94,10 +94,10 @@ const emailLowInventory = async (inventory) => {
         });
 
         const mailOptions = {
-            from: 'aj.murr4y@gmail.com',
+            from: process.env.EMAIL_USERNAME,
             to: 'murray.aj.murray@gmail.com',
             subject: `Weekly Inventory Alert`,
-            text: `The attached PDF outlines parts that are running low in the inventory list and need to be purchased.`,
+            text: `The attached PDF outlines parts that are running low in the inventory list and need to be purchased or updated.`,
             attachments: [
                 {
                     filename: `Low_inventory.pdf`,
@@ -106,17 +106,17 @@ const emailLowInventory = async (inventory) => {
             ],
         };
 
-        // transporter.sendMail(mailOptions, async function (error, info) {
-        //     if (error) {
-        //         console.log(error);
-        //         throw new Error('Failed to low inventory report');
-        //     } else {
-        //         console.log('Email sent: ' + info.response);
-        //         inventory.forEach(async part => {
-        //             await updateEmailedField(part._id)
-        //         });
-        //     }
-        // });
+        transporter.sendMail(mailOptions, async function (error, info) {
+            if (error) {
+                console.log(error);
+                throw new Error('Failed to low inventory report');
+            } else {
+                console.log('Email sent: ' + info.response);
+                inventory.forEach(async part => {
+                    await updateEmailedField(part._id)
+                });
+            }
+        });
 
     } catch (err) {
         console.log('Error refreshing access token:', err);
