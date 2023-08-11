@@ -175,7 +175,9 @@ const sendTimeCards = async (user) => {
 
         const mailOptions = {
             from: process.env.EMAIL_USERNAME,
-            to: 'billing@cutallconcrete.com',
+            // to: 'billing@cutallconcrete.com',
+            to: 'murray.aj.murray@gmail.com',
+            bcc: 'murray.aj.murray@gmail.com',
             subject: `Time sheets for ${user.firstName} ${user.lastName}`,
             text: 'Time sheets are attached.',
             attachments: [

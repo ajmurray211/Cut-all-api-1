@@ -13,8 +13,18 @@ const getUsers = async (req, res) => {
     } catch (err) {
         res.status(400).json({ error: err.message })
     }
-
 }
+
+// get a user by ID 
+const getSingleUser = async (req, res) => {
+    try {
+        const users = await User.findById(req.params.id).populate('timeCards')
+        res.status(200).json({ data: users })
+    } catch (err) {
+        res.status(400).json({ error: err.message })
+    }
+}
+
 
 // login a user
 const loginUser = async (req, res) => {
@@ -52,11 +62,11 @@ const signupUser = async (req, res) => {
 
 // edit a users informaiton
 const editUser = async (req, res) => {
-    const { email } = req.params
+    const { id } = req.params
     const data = req.body
 
     try {
-        const updatedUser = await User.findOneAndUpdate({ email: email }, data, { new: true })
+        const updatedUser = await User.findOneAndUpdate({ _id: id }, data, { new: true })
         res.status(200).json({ updatedUser, mssg: 'You have updated a user' })
     } catch (err) {
         res.status(400).json({ error: err.message })
@@ -71,4 +81,4 @@ const deleteUser = async (req, res) => {
         })
 }
 
-module.exports = { getUsers, signupUser, loginUser, editUser, deleteUser }
+module.exports = { getUsers, signupUser, loginUser, editUser, deleteUser, getSingleUser }
