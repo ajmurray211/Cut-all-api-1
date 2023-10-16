@@ -37,21 +37,25 @@ const getJustSerialNumbers = (req, res) => {
 };
 
 const editSerialNumberJobData = (req, res) => {
-    console.log('hit update', req.body);
-    SerialNum.findOne({ serialNum: req.body.serialNum, history: { $elemMatch: { date: req.body.date } } }, { "history.$": 1 })
-        .then(serialNumData => {
-            const historyItem = serialNumData.history[0];
-            console.log(historyItem._id);
-            return SerialNum.findOneAndUpdate({ "history._id": historyItem._id }, { $set: { "history.$.runLength": req.body.runLength, "history.$.depth": req.body.depth } }, { new: true });
-        })
-        .then(updatedHistoryItem => {
-            console.log(updatedHistoryItem);
-            res.status(200).json({ data: updatedHistoryItem });
-        })
-        .catch(error => {
-            console.error('Error updating serial number job data', error);
-            res.status(500).json({ message: 'Error updating serial number job data', error: error.message });
-        });
+    // console.log('hit edit serial number', req.body);
+    if (req.body.serialNum) {
+        SerialNum.findOne({ serialNum: req.body.serialNum, history: { $elemMatch: { date: req.body.date } } }, { "history.$": 1 })
+            .then(serialNumData => {
+                const historyItem = serialNumData.history[0];
+                console.log(historyItem._id);
+                return SerialNum.findOneAndUpdate({ "history._id": historyItem._id }, { $set: { "history.$.runLength": req.body.runLength, "history.$.depth": req.body.depth } }, { new: true });
+            })
+            .then(updatedHistoryItem => {
+                console.log(updatedHistoryItem);
+                res.status(200).json({ data: updatedHistoryItem });
+            })
+            .catch(error => {
+                console.error('Error updating serial number job data', error);
+                res.status(500).json({ message: 'Error updating serial number job data', error: error.message });
+            });
+    } else {
+        res.status(500).json({ message: 'Error no serial number provided'});
+    }
 };
 
 const getSingleNum = (req, res) => {

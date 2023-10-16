@@ -71,6 +71,7 @@ const getSingleTicket = async (req, res) => {
 
 //Update one ticket by ID
 const updateSingleTicket = async (req, res) => {
+    console.log('hit update')
     const { id } = req.params
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
